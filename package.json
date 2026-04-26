@@ -1,0 +1,77 @@
+{
+  "name": "netkeeper",
+  "productName": "NetKeeper",
+  "version": "0.2.0",
+  "description": "NetKeeper - 校园网保活助手 MVP",
+  "private": true,
+  "type": "module",
+  "main": "out/main/index.js",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "scripts": {
+    "dev": "electron-vite dev",
+    "typecheck": "vue-tsc --noEmit",
+    "build": "npm run typecheck && electron-vite build",
+    "pack": "npm run build && electron-builder --dir",
+    "dist": "npm run build && electron-builder",
+    "preview": "electron-vite preview"
+  },
+  "build": {
+    "appId": "com.netkeeper.app",
+    "productName": "NetKeeper",
+    "asar": true,
+    "npmRebuild": false,
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "out/**/*",
+      "build/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "build/icon.ico",
+        "to": "icon.ico"
+      },
+      {
+        "from": "build/tray.ico",
+        "to": "tray.ico"
+      }
+    ],
+    "win": {
+      "icon": "build/icon.ico",
+      "signAndEditExecutable": false,
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "${productName}-${version}-setup.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": "always",
+      "createStartMenuShortcut": true,
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico",
+      "include": "build/installer.nsh"
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^24.9.0",
+    "@vitejs/plugin-vue": "^6.0.6",
+    "electron": "^41.3.0",
+    "electron-builder": "^26.8.1",
+    "electron-vite": "^5.0.0",
+    "typescript": "^6.0.3",
+    "vite": "^7.1.10",
+    "vue": "^3.5.33",
+    "vue-tsc": "^3.2.7"
+  }
+}
