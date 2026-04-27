@@ -10,13 +10,13 @@ export type NetworkStatus =
 // 日志级别
 export type LogLevel = 'info' | 'success' | 'warning' | 'error'
 // 运营商类型，对应 AUST_OPERATOR_SUFFIXES 中的 key
-export type OperatorPresetKey = 'telecom' | 'unicom' | 'mobile'
+export type OperatorPresetKey = 'faculty' | 'telecom' | 'unicom' | 'mobile'
 
 // 用户配置，保存到 netkeeper.config.json
 export interface UserConfig {
   username: string               // 学号
   password?: string              // 密码（可选，未保存时为空）
-  operator: string               // 运营商标识：'telecom' | 'unicom' | 'mobile' | ''
+  operator: string               // 认证出口标识：'faculty' | 'telecom' | 'unicom' | 'mobile' | ''
   autoReconnect: boolean         // 断网后是否自动重连
   checkInterval: number          // 保活检测间隔（秒）
   autoStart: boolean             // 是否开机自启动

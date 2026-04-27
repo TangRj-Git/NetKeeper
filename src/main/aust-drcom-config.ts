@@ -7,6 +7,7 @@ export const AUST_LOGIN_URL = 'http://10.255.0.19/drcom/login'
 
 // 运营商后缀映射，登录时拼接到学号后面（如 学号@aust）以选择出口
 export const AUST_OPERATOR_SUFFIXES: Record<OperatorPresetKey, string> = {
+  faculty: '@jzg',
   telecom: '@aust',
   unicom: '@unicom',
   mobile: '@cmcc'

@@ -1,7 +1,7 @@
 {
   "name": "netkeeper",
   "productName": "NetKeeper",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "NetKeeper - 校园网保活助手 MVP",
   "private": true,
   "type": "module",

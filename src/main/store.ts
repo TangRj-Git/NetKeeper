@@ -16,7 +16,7 @@ type StoredConfig = Omit<UserConfig, 'password'> & {
 const CONFIG_FILENAME = 'netkeeper.config.json'
 const ENCRYPTED_PREFIX = 'safe:'
 const FALLBACK_PREFIX = 'base64:'
-const VALID_OPERATORS = new Set(['', 'telecom', 'unicom', 'mobile'])
+const VALID_OPERATORS = new Set(['', 'faculty', 'telecom', 'unicom', 'mobile'])
 
 function normalizeCheckInterval(value: number | undefined): number {
   if (typeof value !== 'number' || Number.isNaN(value) || !Number.isFinite(value)) {
