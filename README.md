@@ -2,7 +2,7 @@
 
 NetKeeper（校园网保活助手）是一个基于 `Electron + Vue 3 + TypeScript + Vite` 的 Windows 桌面应用，用于自动检测校园网连通状态，并在外网不可达时自动重新认证。
 
-当前版本：`0.3.0`
+当前版本：`0.4.0`
 
 当前版本已按安徽理工大学 Drcom 认证网关适配，支持通过账号、密码和认证出口完成校园网自动重连。软件已支持系统托盘、开机自启动、本地配置保存、Windows 安装包打包，以及在软件内部尽量绕过系统代理进行直连检测和认证。
 
@@ -107,10 +107,10 @@ npm run dist
 npm run dist
 ```
 
-指定新版本并打包，例如 `0.4.0`：
+指定新版本并打包，例如 `0.5.0`：
 
 ```bash
-npm version 0.4.0 --no-git-tag-version
+npm version 0.5.0 --no-git-tag-version
 npm run dist
 ```
 
@@ -126,10 +126,10 @@ npm run dist
 release/
 ```
 
-当前 `0.3.0` 安装包：
+当前 `0.4.0` 安装包：
 
 ```txt
-release/NetKeeper-0.3.0-setup.exe
+release/NetKeeper-0.4.0-setup.exe
 ```
 
 免安装运行目录：
@@ -147,3 +147,27 @@ release/win-unpacked/
 ```
 
 安装方式分为用户安装和系统安装，但配置始终按当前 Windows 用户分别保存。
+
+## Linux（Ubuntu）
+
+Linux 版本复用同一套 Electron、Vue 和校园网认证代码，当前提供 x64 架构的 AppImage 和 Debian 安装包配置。
+
+构建 Linux 安装包：
+
+```bash
+npm run dist:linux
+```
+
+只生成 Linux 免安装目录：
+
+```bash
+npm run pack:linux
+```
+
+如果构建机是 Windows，可先生成 Linux 便携压缩包：
+
+```bash
+npm run dist:linux:tar
+```
+
+生成的文件默认位于 `release/`。Ubuntu 的开机自启动使用 XDG autostart，图标使用 PNG。Linux 桌面环境需要提供可用的系统托盘和 Secret Service / libsecret 密钥环，才能完整使用托盘菜单和安全密码存储功能。

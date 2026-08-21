@@ -13,6 +13,7 @@ import { TrayController } from './tray'
 
 const WINDOW_TITLE = 'NetKeeper - 校园网保活助手'
 const PRELOAD_ENTRY = 'index.mjs'
+const START_HIDDEN = process.argv.includes('--hidden')
 
 const logger = new LoggerService()
 const store = new ConfigStore()
@@ -31,7 +32,7 @@ function createMainWindow(): BrowserWindow {
     minHeight: 760,
     show: false,
     title: WINDOW_TITLE,
-    icon: resolveIconPath('icon.ico'),
+    icon: resolveIconPath('icon'),
     backgroundColor: '#edf4fb',
     autoHideMenuBar: true,
     webPreferences: {
@@ -45,7 +46,9 @@ function createMainWindow(): BrowserWindow {
   window.webContents.setWindowOpenHandler(() => ({ action: 'deny' }))
 
   window.once('ready-to-show', () => {
-    window.show()
+    if (!START_HIDDEN) {
+      window.show()
+    }
   })
 
   window.on('close', (event) => {
@@ -160,28 +163,47 @@ async function bootstrap(): Promise<void> {
   await keepAlive.initialize()
 }
 
-app.on('before-quit', () => {
-  isQuitting = true
-  trayController?.dispose()
-})
+const hasSingleInstanceLock = app.requestSingleInstanceLock()
 
-app.whenReady()
-  .then(() => bootstrap())
-  .catch((error) => {
-    logger.error(`启动失败：${error instanceof Error ? error.message : '未知错误'}`)
-    app.quit()
+if (!hasSingleInstanceLock) {
+  app.quit()
+} else {
+  app.on('second-instance', () => {
+    if (!mainWindow) {
+      return
+    }
+
+    if (mainWindow.isMinimized()) {
+      mainWindow.restore()
+    }
+
+    mainWindow.show()
+    mainWindow.focus()
   })
 
-app.on('activate', () => {
-  if (!mainWindow) {
-    mainWindow = createMainWindow()
-    return
-  }
+  app.on('before-quit', () => {
+    isQuitting = true
+    trayController?.dispose()
+  })
 
-  if (mainWindow.isMinimized()) {
-    mainWindow.restore()
-  }
+  app.whenReady()
+    .then(() => bootstrap())
+    .catch((error) => {
+      logger.error(`启动失败：${error instanceof Error ? error.message : '未知错误'}`)
+      app.quit()
+    })
 
-  mainWindow.show()
-  mainWindow.focus()
-})
+  app.on('activate', () => {
+    if (!mainWindow) {
+      mainWindow = createMainWindow()
+      return
+    }
+
+    if (mainWindow.isMinimized()) {
+      mainWindow.restore()
+    }
+
+    mainWindow.show()
+    mainWindow.focus()
+  })
+}

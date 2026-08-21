@@ -1,8 +1,12 @@
 {
   "name": "netkeeper",
   "productName": "NetKeeper",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "NetKeeper - 校园网保活助手 MVP",
+  "author": {
+    "name": "NetKeeper",
+    "email": "3177065378@qq.com"
+  },
   "private": true,
   "type": "module",
   "main": "out/main/index.js",
@@ -15,6 +19,9 @@
     "build": "npm run typecheck && electron-vite build",
     "pack": "npm run build && electron-builder --dir",
     "dist": "npm run build && electron-builder",
+    "pack:linux": "npm run build && electron-builder --linux --dir",
+    "dist:linux": "npm run build && electron-builder --linux",
+    "dist:linux:tar": "npm run build && electron-builder --linux tar.gz",
     "preview": "electron-vite preview"
   },
   "build": {
@@ -38,6 +45,14 @@
       {
         "from": "build/tray.ico",
         "to": "tray.ico"
+      },
+      {
+        "from": "build/icon.png",
+        "to": "icon.png"
+      },
+      {
+        "from": "build/tray.png",
+        "to": "tray.png"
       }
     ],
     "win": {
@@ -61,6 +76,30 @@
       "installerIcon": "build/icon.ico",
       "uninstallerIcon": "build/icon.ico",
       "include": "build/installer.nsh"
+    },
+    "linux": {
+      "icon": "build/icon.png",
+      "category": "Network",
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "deb",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "${productName}-${version}-${arch}.${ext}"
+    },
+    "deb": {
+      "depends": [
+        "libsecret-1-0"
+      ]
     }
   },
   "devDependencies": {

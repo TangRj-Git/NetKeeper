@@ -90,11 +90,11 @@ export class TrayController {
 }
 
 function createTrayIcon() {
-  const icon = nativeImage.createFromPath(resolveIconPath('tray.ico'))
+  const icon = nativeImage.createFromPath(resolveIconPath('tray'))
 
   if (!icon.isEmpty()) {
     return icon.resize({ width: 16, height: 16 })
   }
 
-  return nativeImage.createFromPath(resolveIconPath('icon.ico')).resize({ width: 16, height: 16 })
+  return nativeImage.createFromPath(resolveIconPath('icon')).resize({ width: 16, height: 16 })
 }
